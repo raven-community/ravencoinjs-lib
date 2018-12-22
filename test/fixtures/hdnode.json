@@ -1,7 +1,7 @@
 {
   "valid": [
     {
-      "network": "bitcoin",
+      "network": "ravencoin",
       "master": {
         "seed": "000102030405060708090a0b0c0d0e0f",
         "wif": "L52XzL2cMkHxqxBXRyEpnPQZGUs3uKiL3R11XbAdHigRzDozKZeW",
@@ -89,7 +89,7 @@
       ]
     },
     {
-      "network": "bitcoin",
+      "network": "ravencoin",
       "master": {
         "seed": "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542",
         "wif": "KyjXhyHF9wTphBkfpxjL8hkDXDUSbE3tKANT94kXSyh6vn6nKaoy",
@@ -178,7 +178,7 @@
     },
     {
       "comment": "Private key has leading zeros, see PR #673",
-      "network": "bitcoin",
+      "network": "ravencoin",
       "master": {
         "seed": "d13de7bd1e54422d1a3b3b699a27fb460de2849e7e66a005c647e8e4a54075cb",
         "wif": "KwDiCU5bs8xQwsRgxjhkcJcVuR7NE4Mei8X9uSAVviVTE7JmMoS6",
@@ -207,7 +207,7 @@
       ]
     },
     {
-      "network": "litecoin",
+      "network": "ravencoin",
       "master": {
         "seed": "000102030405060708090a0b0c0d0e0f",
         "wif": "TAroS5Knm8GZcnpPycBgzjwwDLWMyQjDrcuGPPoArgrbW7Ln22qp",
@@ -246,22 +246,22 @@
       },
       {
         "exception": "Invalid buffer length",
-        "network": "bitcoin",
+        "network": "ravencoin",
         "string": "HAsbc6CgKmTYEQg2CTz7m5STEPAB"
       },
       {
         "exception": "Invalid parent fingerprint",
-        "network": "bitcoin",
+        "network": "ravencoin",
         "string": "xprv9tnJFvAXAXPfPnMTKfwpwnkty7MzJwELVgp4NTBquaKXy4RndyfJJCJJf7zNaVpBpzrwVRutZNLRCVLEcZHcvuCNG3zGbGBcZn57FbNnmSP"
       },
       {
         "exception": "Invalid private key",
-        "network": "bitcoin",
+        "network": "ravencoin",
         "string": "xprv9s21ZrQH143K3yLysFvsu3n1dMwhNusmNHr7xArzAeCc7MQYqDBBStmqnZq6WLi668siBBNs3SjiyaexduHu9sXT9ixTsqptL67ADqcaBdm"
       },
       {
         "exception": "Invalid index",
-        "network": "bitcoin",
+        "network": "ravencoin",
         "string": "xprv9s21ZrQYdgnodnKW4Drm1Qg7poU6Gf2WUDsjPxvYiK7iLBMrsjbnF1wsZZQgmXNeMSG3s7jmHk1b3JrzhG5w8mwXGxqFxfrweico7k8DtxR"
       },
       {
@@ -270,7 +270,7 @@
       },
       {
         "exception": "Invalid network version",
-        "network": "bitcoin",
+        "network": "ravencoin",
         "string": "Ltpv73XYpw28ZyVe2zEVyiFnxUZxoKLGQNdZ8NxUi1WcqjNmMBgtLbh3KimGSnPHCoLv1RmvxHs4dnKmo1oXQ8dXuDu8uroxrbVxZPA1gXboYvx"
       },
       {

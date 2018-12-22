@@ -1,22 +1,22 @@
 /* global describe, it */
 
-var bitcoin = require('../../')
+var ravencoin = require('../../')
 var blockchain = require('./_blockchain')
 
-describe('bitcoinjs-lib (advanced)', function () {
+describe('ravencoinjs-lib (advanced)', function () {
   it('can create an OP_RETURN transaction', function (done) {
     this.timeout(30000)
 
-    var network = bitcoin.networks.testnet
-    var keyPair = bitcoin.ECPair.makeRandom({ network: network })
+    var network = ravencoin.networks.testnet
+    var keyPair = ravencoin.ECPair.makeRandom({ network: network })
     var address = keyPair.getAddress()
 
     blockchain.t.faucet(address, 5e4, function (err, unspent) {
       if (err) return done(err)
 
-      var tx = new bitcoin.TransactionBuilder(network)
-      var data = Buffer.from('bitcoinjs-lib')
-      var dataScript = bitcoin.script.nullData.output.encode(data)
+      var tx = new ravencoin.TransactionBuilder(network)
+      var data = Buffer.from('ravencoinjs-lib')
+      var dataScript = ravencoin.script.nullData.output.encode(data)
 
       tx.addInput(unspent.txId, unspent.vout)
       tx.addOutput(dataScript, 1000)

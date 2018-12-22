@@ -47,7 +47,7 @@ describe('types', function () {
     })
   })
 
-  describe('Satoshi', function () {
+  describe('Corbe', function () {
     [
       { value: -1, result: false },
       { value: 0, result: true },
@@ -57,7 +57,7 @@ describe('types', function () {
       { value: 21000001 * 1e8, result: false }
     ].forEach(function (f) {
       it('returns ' + f.result + ' for valid for ' + f.value, function () {
-        assert.strictEqual(types.Satoshi(f.value), f.result)
+        assert.strictEqual(types.Corbe(f.value), f.result)
       })
     })
   })

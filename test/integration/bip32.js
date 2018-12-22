@@ -3,23 +3,23 @@
 var assert = require('assert')
 var bigi = require('bigi')
 var bip39 = require('bip39')
-var bitcoin = require('../../')
+var ravencoin = require('../../')
 var crypto = require('crypto')
 
 var ecurve = require('ecurve')
 var secp256k1 = ecurve.getCurveByName('secp256k1')
 
-describe('bitcoinjs-lib (BIP32)', function () {
+describe('ravencoinjs-lib (BIP32)', function () {
   it('can import a BIP32 testnet xpriv and export to WIF', function () {
     var xpriv = 'tprv8ZgxMBicQKsPd7Uf69XL1XwhmjHopUGep8GuEiJDZmbQz6o58LninorQAfcKZWARbtRtfnLcJ5MQ2AtHcQJCCRUcMRvmDUjyEmNUWwx8UbK'
-    var node = bitcoin.HDNode.fromBase58(xpriv, bitcoin.networks.testnet)
+    var node = ravencoin.HDNode.fromBase58(xpriv, ravencoin.networks.testnet)
 
     assert.equal(node.keyPair.toWIF(), 'cQfoY67cetFNunmBUX5wJiw3VNoYx3gG9U9CAofKE6BfiV1fSRw7')
   })
 
   it('can create a BIP32 wallet external address', function () {
     var path = "m/0'/0/0"
-    var root = bitcoin.HDNode.fromSeedHex('dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd')
+    var root = ravencoin.HDNode.fromSeedHex('dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd')
 
     var child1 = root.derivePath(path)
 
@@ -32,9 +32,9 @@ describe('bitcoinjs-lib (BIP32)', function () {
     assert.equal(child2.getAddress(), '1JHyB1oPXufr4FXkfitsjgNB5yRY9jAaa7')
   })
 
-  it('can create a BIP44, bitcoin, account 0, external address', function () {
+  it('can create a BIP44, ravencoin, account 0, external address', function () {
     var path = "m/44'/0'/0'/0/0"
-    var root = bitcoin.HDNode.fromSeedHex('dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd')
+    var root = ravencoin.HDNode.fromSeedHex('dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd')
 
     var child1 = root.derivePath(path)
 
@@ -64,7 +64,7 @@ describe('bitcoinjs-lib (BIP32)', function () {
       serQP.copy(data, 0)
 
       // search index space until we find it
-      for (var i = 0; i < bitcoin.HDNode.HIGHEST_BIT; ++i) {
+      for (var i = 0; i < ravencoin.HDNode.HIGHEST_BIT; ++i) {
         data.writeUInt32BE(i, 33)
 
         // calculate I
@@ -75,11 +75,11 @@ describe('bitcoinjs-lib (BIP32)', function () {
         // See hdnode.js:273 to understand
         d2 = d1.subtract(pIL).mod(curve.n)
 
-        var Qp = new bitcoin.ECPair(d2).Q
+        var Qp = new ravencoin.ECPair(d2).Q
         if (Qp.equals(QP)) break
       }
 
-      var node = new bitcoin.HDNode(new bitcoin.ECPair(d2), master.chainCode, master.network)
+      var node = new ravencoin.HDNode(new ravencoin.ECPair(d2), master.chainCode, master.network)
       node.depth = master.depth
       node.index = master.index
       node.masterFingerprint = master.masterFingerprint
@@ -87,7 +87,7 @@ describe('bitcoinjs-lib (BIP32)', function () {
     }
 
     var seed = crypto.randomBytes(32)
-    var master = bitcoin.HDNode.fromSeedBuffer(seed)
+    var master = ravencoin.HDNode.fromSeedBuffer(seed)
     var child = master.derive(6) // m/6
 
     // now for the recovery
@@ -102,7 +102,7 @@ describe('bitcoinjs-lib (BIP32)', function () {
     assert(bip39.validateMnemonic(mnemonic))
 
     var seed = bip39.mnemonicToSeed(mnemonic)
-    var root = bitcoin.HDNode.fromSeedBuffer(seed)
+    var root = ravencoin.HDNode.fromSeedBuffer(seed)
 
     // 1st receive address
     assert.strictEqual(root.derivePath("m/0'/0/0").getAddress(), '1AVQHbGuES57wD68AJi7Gcobc3RZrfYWTC')

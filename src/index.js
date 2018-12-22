@@ -13,4 +13,3 @@ module.exports = {
   opcodes: require('ravencoin-ops'),
   script: require('./script')
 }
-ravencoin

@@ -2,26 +2,26 @@
 
 var assert = require('assert')
 var bigi = require('bigi')
-var bitcoin = require('../../')
+var ravencoin = require('../../')
 var blockchain = require('./_blockchain')
 
-describe('bitcoinjs-lib (basic)', function () {
-  it('can generate a random bitcoin address', function () {
+describe('ravencoinjs-lib (basic)', function () {
+  it('can generate a random ravencoin address', function () {
     // for testing only
     function rng () { return Buffer.from('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz') }
 
     // generate random keyPair
-    var keyPair = bitcoin.ECPair.makeRandom({ rng: rng })
+    var keyPair = ravencoin.ECPair.makeRandom({ rng: rng })
     var address = keyPair.getAddress()
 
     assert.strictEqual(address, '1F5VhMHukdnUES9kfXqzPzMeF1GPHKiF64')
   })
 
   it('can generate an address from a SHA256 hash', function () {
-    var hash = bitcoin.crypto.sha256('correct horse battery staple')
+    var hash = ravencoin.crypto.sha256('correct horse battery staple')
     var d = bigi.fromBuffer(hash)
 
-    var keyPair = new bitcoin.ECPair(d)
+    var keyPair = new ravencoin.ECPair(d)
     var address = keyPair.getAddress()
 
     assert.strictEqual(address, '1C7zdTfnkzmr13HfA2vNm5SJYRK6nEKyq8')
@@ -31,9 +31,9 @@ describe('bitcoinjs-lib (basic)', function () {
     // for testing only
     function rng () { return Buffer.from('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz') }
 
-    var litecoin = bitcoin.networks.litecoin
+    var ravencoin = ravencoin.networks.ravencoin
 
-    var keyPair = bitcoin.ECPair.makeRandom({ network: litecoin, rng: rng })
+    var keyPair = ravencoin.ECPair.makeRandom({ network: ravencoin, rng: rng })
     var wif = keyPair.toWIF()
     var address = keyPair.getAddress()
 
@@ -42,15 +42,15 @@ describe('bitcoinjs-lib (basic)', function () {
   })
 
   it('can import an address via WIF', function () {
-    var keyPair = bitcoin.ECPair.fromWIF('Kxr9tQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct')
+    var keyPair = ravencoin.ECPair.fromWIF('Kxr9tQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct')
     var address = keyPair.getAddress()
 
     assert.strictEqual(address, '19AAjaTUbRjQCMuVczepkoPswiZRhjtg31')
   })
 
   it('can create a Transaction', function () {
-    var keyPair = bitcoin.ECPair.fromWIF('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy')
-    var tx = new bitcoin.TransactionBuilder()
+    var keyPair = ravencoin.ECPair.fromWIF('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy')
+    var tx = new ravencoin.TransactionBuilder()
 
     tx.addInput('aa94ab02c182214f090e99a0d57021caffd0f195a81c24602b1028b130b63e31', 0)
     tx.addOutput('1Gokm82v6DmtwKEB8AiVhm82hyFSsEvBDK', 15000)
@@ -62,9 +62,9 @@ describe('bitcoinjs-lib (basic)', function () {
   it('can create a [complex] Transaction', function (done) {
     this.timeout(30000)
 
-    var testnet = bitcoin.networks.testnet
-    var alice = bitcoin.ECPair.makeRandom({ network: testnet })
-    var bob = bitcoin.ECPair.makeRandom({ network: testnet })
+    var testnet = ravencoin.networks.testnet
+    var alice = ravencoin.ECPair.makeRandom({ network: testnet })
+    var bob = ravencoin.ECPair.makeRandom({ network: testnet })
     var alicesAddress = alice.getAddress()
     var bobsAddress = bob.getAddress()
 
@@ -80,7 +80,7 @@ describe('bitcoinjs-lib (basic)', function () {
     ], function (err, unspents) {
       if (err) return done(err)
 
-      var tx = new bitcoin.TransactionBuilder(testnet)
+      var tx = new ravencoin.TransactionBuilder(testnet)
       tx.addInput(unspents[0].txId, unspents[0].vout)
       tx.addInput(unspents[1].txId, unspents[1].vout)
       tx.addOutput(blockchain.t.RETURN, 3e4)

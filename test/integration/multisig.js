@@ -2,10 +2,10 @@
 
 var async = require('async')
 var assert = require('assert')
-var bitcoin = require('../../')
+var ravencoin = require('../../')
 var blockchain = require('./_blockchain')
 
-describe('bitcoinjs-lib (multisig)', function () {
+describe('ravencoinjs-lib (multisig)', function () {
   it('can create a 2-of-3 multisig P2SH address', function () {
     var pubKeys = [
       '026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01',
@@ -15,9 +15,9 @@ describe('bitcoinjs-lib (multisig)', function () {
       return Buffer.from(hex, 'hex')
     })
 
-    var redeemScript = bitcoin.script.multisig.output.encode(2, pubKeys) // 2 of 3
-    var scriptPubKey = bitcoin.script.scriptHash.output.encode(bitcoin.crypto.hash160(redeemScript))
-    var address = bitcoin.address.fromOutputScript(scriptPubKey)
+    var redeemScript = ravencoin.script.multisig.output.encode(2, pubKeys) // 2 of 3
+    var scriptPubKey = ravencoin.script.scriptHash.output.encode(ravencoin.crypto.hash160(redeemScript))
+    var address = ravencoin.address.fromOutputScript(scriptPubKey)
 
     assert.strictEqual(address, '36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7')
   })
@@ -30,18 +30,18 @@ describe('bitcoinjs-lib (multisig)', function () {
       '91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgww7vXtT',
       '91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgx3cTMqe',
       '91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgx9rcrL7'
-    ].map(function (wif) { return bitcoin.ECPair.fromWIF(wif, bitcoin.networks.testnet) })
+    ].map(function (wif) { return ravencoin.ECPair.fromWIF(wif, ravencoin.networks.testnet) })
     var pubKeys = keyPairs.map(function (x) { return x.getPublicKeyBuffer() })
 
-    var redeemScript = bitcoin.script.multisig.output.encode(2, pubKeys) // 2 of 4
-    var scriptPubKey = bitcoin.script.scriptHash.output.encode(bitcoin.crypto.hash160(redeemScript))
-    var address = bitcoin.address.fromOutputScript(scriptPubKey, bitcoin.networks.testnet)
+    var redeemScript = ravencoin.script.multisig.output.encode(2, pubKeys) // 2 of 4
+    var scriptPubKey = ravencoin.script.scriptHash.output.encode(ravencoin.crypto.hash160(redeemScript))
+    var address = ravencoin.address.fromOutputScript(scriptPubKey, ravencoin.networks.testnet)
 
     // attempt to send funds to the source address
     blockchain.t.faucet(address, 2e4, function (err, unspent) {
       if (err) return done(err)
 
-      var txb = new bitcoin.TransactionBuilder(bitcoin.networks.testnet)
+      var txb = new ravencoin.TransactionBuilder(ravencoin.networks.testnet)
       txb.addInput(unspent.txId, unspent.vout)
       txb.addOutput(blockchain.t.RETURN, 1e4)
 

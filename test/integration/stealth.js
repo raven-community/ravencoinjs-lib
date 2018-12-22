@@ -2,7 +2,7 @@
 
 var assert = require('assert')
 var bigi = require('bigi')
-var bitcoin = require('../../')
+var ravencoin = require('../../')
 
 var ecurve = require('ecurve')
 var secp256k1 = ecurve.getCurveByName('secp256k1')
@@ -12,9 +12,9 @@ var n = secp256k1.n
 // vG = (dG \+ sha256(e * dG)G)
 function stealthSend (e, Q) {
   var eQ = Q.multiply(e) // shared secret
-  var c = bigi.fromBuffer(bitcoin.crypto.sha256(eQ.getEncoded()))
+  var c = bigi.fromBuffer(ravencoin.crypto.sha256(eQ.getEncoded()))
   var cG = G.multiply(c)
-  var vG = new bitcoin.ECPair(null, Q.add(cG))
+  var vG = new ravencoin.ECPair(null, Q.add(cG))
 
   return vG
 }
@@ -22,8 +22,8 @@ function stealthSend (e, Q) {
 // v = (d + sha256(eG * d))
 function stealthReceive (d, eG) {
   var eQ = eG.multiply(d) // shared secret
-  var c = bigi.fromBuffer(bitcoin.crypto.sha256(eQ.getEncoded()))
-  var v = new bitcoin.ECPair(d.add(c).mod(n))
+  var c = bigi.fromBuffer(ravencoin.crypto.sha256(eQ.getEncoded()))
+  var v = new ravencoin.ECPair(d.add(c).mod(n))
 
   return v
 }
@@ -31,8 +31,8 @@ function stealthReceive (d, eG) {
 // d = (v - sha256(e * dG))
 function stealthRecoverLeaked (v, e, Q) {
   var eQ = Q.multiply(e) // shared secret
-  var c = bigi.fromBuffer(bitcoin.crypto.sha256(eQ.getEncoded()))
-  var d = new bitcoin.ECPair(v.subtract(c).mod(n))
+  var c = bigi.fromBuffer(ravencoin.crypto.sha256(eQ.getEncoded()))
+  var d = new ravencoin.ECPair(v.subtract(c).mod(n))
 
   return d
 }
@@ -40,9 +40,9 @@ function stealthRecoverLeaked (v, e, Q) {
 // vG = (rG \+ sha256(e * dG)G)
 function stealthDualSend (e, R, Q) {
   var eQ = Q.multiply(e) // shared secret
-  var c = bigi.fromBuffer(bitcoin.crypto.sha256(eQ.getEncoded()))
+  var c = bigi.fromBuffer(ravencoin.crypto.sha256(eQ.getEncoded()))
   var cG = G.multiply(c)
-  var vG = new bitcoin.ECPair(null, R.add(cG))
+  var vG = new ravencoin.ECPair(null, R.add(cG))
 
   return vG
 }
@@ -50,9 +50,9 @@ function stealthDualSend (e, R, Q) {
 // vG = (rG \+ sha256(eG * d)G)
 function stealthDualScan (d, R, eG) {
   var eQ = eG.multiply(d) // shared secret
-  var c = bigi.fromBuffer(bitcoin.crypto.sha256(eQ.getEncoded()))
+  var c = bigi.fromBuffer(ravencoin.crypto.sha256(eQ.getEncoded()))
   var cG = G.multiply(c)
-  var vG = new bitcoin.ECPair(null, R.add(cG))
+  var vG = new ravencoin.ECPair(null, R.add(cG))
 
   return vG
 }
@@ -60,17 +60,17 @@ function stealthDualScan (d, R, eG) {
 // v = (r + sha256(eG * d))
 function stealthDualReceive (d, r, eG) {
   var eQ = eG.multiply(d) // shared secret
-  var c = bigi.fromBuffer(bitcoin.crypto.sha256(eQ.getEncoded()))
-  var v = new bitcoin.ECPair(r.add(c).mod(n))
+  var c = bigi.fromBuffer(ravencoin.crypto.sha256(eQ.getEncoded()))
+  var v = new ravencoin.ECPair(r.add(c).mod(n))
 
   return v
 }
 
-describe('bitcoinjs-lib (crypto)', function () {
+describe('ravencoinjs-lib (crypto)', function () {
   it('can generate a single-key stealth address', function () {
     // XXX: should be randomly generated, see next test for example
-    var recipient = bitcoin.ECPair.fromWIF('5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss') // private to recipient
-    var nonce = bitcoin.ECPair.fromWIF('KxVqB96pxbw1pokzQrZkQbLfVBjjHFfp2mFfEp8wuEyGenLFJhM9') // private to sender
+    var recipient = ravencoin.ECPair.fromWIF('5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss') // private to recipient
+    var nonce = ravencoin.ECPair.fromWIF('KxVqB96pxbw1pokzQrZkQbLfVBjjHFfp2mFfEp8wuEyGenLFJhM9') // private to sender
 
     // ... recipient reveals public key (recipient.Q) to sender
     var forSender = stealthSend(nonce.d, recipient.Q)
@@ -87,8 +87,8 @@ describe('bitcoinjs-lib (crypto)', function () {
   })
 
   it('can generate a single-key stealth address (randomly)', function () {
-    var recipient = bitcoin.ECPair.makeRandom() // private to recipient
-    var nonce = bitcoin.ECPair.makeRandom() // private to sender
+    var recipient = ravencoin.ECPair.makeRandom() // private to recipient
+    var nonce = ravencoin.ECPair.makeRandom() // private to sender
 
     // ... recipient reveals public key (recipient.Q) to sender
     var forSender = stealthSend(nonce.d, recipient.Q)
@@ -103,8 +103,8 @@ describe('bitcoinjs-lib (crypto)', function () {
   })
 
   it('can recover parent recipient.d, if a derived private key is leaked [and nonce was revealed]', function () {
-    var recipient = bitcoin.ECPair.makeRandom() // private to recipient
-    var nonce = bitcoin.ECPair.makeRandom() // private to sender
+    var recipient = ravencoin.ECPair.makeRandom() // private to recipient
+    var nonce = ravencoin.ECPair.makeRandom() // private to sender
 
     // ... recipient reveals public key (recipient.Q) to sender
     var forSender = stealthSend(nonce.d, recipient.Q)
@@ -121,9 +121,9 @@ describe('bitcoinjs-lib (crypto)', function () {
 
   it('can generate a dual-key stealth address', function () {
     // XXX: should be randomly generated, see next test for example
-    var recipient = bitcoin.ECPair.fromWIF('5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss') // private to recipient
-    var scan = bitcoin.ECPair.fromWIF('L5DkCk3xLLoGKncqKsWQTdaPSR4V8gzc14WVghysQGkdryRudjBM') // private to scanner/recipient
-    var nonce = bitcoin.ECPair.fromWIF('KxVqB96pxbw1pokzQrZkQbLfVBjjHFfp2mFfEp8wuEyGenLFJhM9') // private to sender
+    var recipient = ravencoin.ECPair.fromWIF('5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss') // private to recipient
+    var scan = ravencoin.ECPair.fromWIF('L5DkCk3xLLoGKncqKsWQTdaPSR4V8gzc14WVghysQGkdryRudjBM') // private to scanner/recipient
+    var nonce = ravencoin.ECPair.fromWIF('KxVqB96pxbw1pokzQrZkQbLfVBjjHFfp2mFfEp8wuEyGenLFJhM9') // private to sender
 
     // ... recipient reveals public key(s) (recipient.Q, scan.Q) to sender
     var forSender = stealthDualSend(nonce.d, recipient.Q, scan.Q)
@@ -143,9 +143,9 @@ describe('bitcoinjs-lib (crypto)', function () {
   })
 
   it('can generate a dual-key stealth address (randomly)', function () {
-    var recipient = bitcoin.ECPair.makeRandom() // private to recipient
-    var scan = bitcoin.ECPair.makeRandom() // private to scanner/recipient
-    var nonce = bitcoin.ECPair.makeRandom() // private to sender
+    var recipient = ravencoin.ECPair.makeRandom() // private to recipient
+    var scan = ravencoin.ECPair.makeRandom() // private to scanner/recipient
+    var nonce = ravencoin.ECPair.makeRandom() // private to sender
 
     // ... recipient reveals public key(s) (recipient.Q, scan.Q) to sender
     var forSender = stealthDualSend(nonce.d, recipient.Q, scan.Q)

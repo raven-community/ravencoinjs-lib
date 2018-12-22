@@ -341,7 +341,7 @@ function prepareInput (input, kpPubKey, redeemScript, witnessValue, witnessScrip
     signScript = prevOutScript
   }
 
-  if (witness && !types.Satoshi(witnessValue)) {
+  if (witness && !types.Corbe(witnessValue)) {
     throw new Error('Input was witness but not given witness value')
   }
 
