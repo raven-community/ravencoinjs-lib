@@ -176,7 +176,7 @@ Transaction.prototype.addInput = function (hash, index, sequence, scriptSig) {
 }
 
 Transaction.prototype.addOutput = function (scriptPubKey, value) {
-  typeforce(types.tuple(types.Buffer, types.Corbe), arguments)
+  typeforce(types.tuple(types.Buffer, types.Satoshi), arguments)
 
   // Add the output and return the output's index
   return (this.outs.push({
@@ -317,7 +317,7 @@ Transaction.prototype.hashForSignature = function (inIndex, prevOutScript, hashT
 }
 
 Transaction.prototype.hashForWitnessV0 = function (inIndex, prevOutScript, value, hashType) {
-  typeforce(types.tuple(types.UInt32, types.Buffer, types.Corbe, types.UInt32), arguments)
+  typeforce(types.tuple(types.UInt32, types.Buffer, types.Satoshi, types.UInt32), arguments)
 
   var tbuffer, toffset
   function writeSlice (slice) { toffset += slice.copy(tbuffer, toffset) }

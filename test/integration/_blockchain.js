@@ -56,7 +56,7 @@ testnet.faucetMany = function faucetMany (outputs, callback) {
     typeforce([{
       txId: types.Hex,
       vout: types.UInt32,
-      value: types.Corbe
+      value: types.Satoshi
     }], unspents)
 
     fundAddress(unspents, outputs, callback)

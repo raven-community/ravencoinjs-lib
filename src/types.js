@@ -10,9 +10,9 @@ function BIP32Path (value) {
 }
 BIP32Path.toJSON = function () { return 'BIP32 derivation path' }
 
-var CORBE_MAX = 21 * 1e17
-function Corbe (value) {
-  return typeforce.UInt53(value) && value <= CORBE_MAX
+var SATOSHI_MAX = 21 * 1e17
+function Satoshi (value) {
+  return typeforce.UInt53(value) && value <= SATOSHI_MAX
 }
 
 // external dependent types
@@ -42,7 +42,7 @@ var types = {
   Hash160bit: typeforce.BufferN(20),
   Hash256bit: typeforce.BufferN(32),
   Network: Network,
-  Corbe: Corbe,
+  Satoshi: Satoshi,
   UInt31: UInt31
 }
 
