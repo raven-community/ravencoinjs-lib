@@ -45,7 +45,7 @@
     "randombytes": "^2.0.1",
     "safe-buffer": "^5.0.1",
     "typeforce": "^1.8.7",
-    "varuint-ravencoin": "github:raven-coummity/varuint-ravencoin#master",
+    "varuint-ravencoin": "github:raven-community/varuint-ravencoin#master",
     "wif": "^2.0.1"
   },
   "devDependencies": {
