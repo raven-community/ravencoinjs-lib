@@ -14,7 +14,7 @@
   ],
   "contributors": [
     "underdarkskies",
-    "MSFTserver",
+    "MSFTserver"
   ],
   "scripts": {
     "coverage-report": "nyc report --reporter=lcov",
